@@ -26,7 +26,7 @@ export default class Container extends Component {
       this.setState({
         treasures: {...this.state.treasures, dragon: treasure.data}
       })
-    }).catch(err => console.log(err))
+    }).catch(error => console.log(error))
   }
 
   getAllTreasure() {

@@ -12,8 +12,8 @@ const auth = require('./middleware/authMiddleware')
 app.use(express.json())
 app.use(
     session({
-        resave:false,
-        saveUninitialized: true,
+        resave:true,
+        saveUninitialized: false,
         secret: SESSION_SECRET,
         // cookie: {maxAge: 1000 * 60 * 60 * 24}
     })
