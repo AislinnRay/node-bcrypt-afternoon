@@ -5,6 +5,8 @@ const massive = require('massive')
 const session = require('express-session')
 const {SERVER_PORT, CONNECTION_STRING, SESSION_SECRET} = process.env
 const authCtrl = require('./controllers/authController')
+const treasureCtrl = require('./controllers/treasureController')
+const auth = require('./middleware/authMiddleware')
 
 
 app.use(express.json())
@@ -17,8 +19,11 @@ app.use(
     })
 )
 
-//Session demonstration endpoint
-
+//Dragon demonstration endpoint
+app.get('/api/treasure/dragon', treasureCtrl.dragonTreasure);
+app.get('/api/treasure/user', auth.usersOnly, treasureCtrl.getUserTreasure);
+app.post('/api/treasure/user', auth.usersOnly, treasureCtrl.addUserTreasure);
+app.get('/api/treasure/all', auth.usersOnly, auth.adminsOnly, treasureCtrl.getAllTreasure);
 
 //Auth endpoints
 app.post('/auth/register', authCtrl.register)
