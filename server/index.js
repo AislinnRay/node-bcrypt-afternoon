@@ -10,6 +10,8 @@ const auth = require('./middleware/authMiddleware')
 
 
 app.use(express.json())
+
+//Secret stuff
 app.use(
     session({
         resave:true,
@@ -19,19 +21,7 @@ app.use(
     })
 )
 
-//Dragon demonstration endpoint
-app.get('/api/treasure/dragon', treasureCtrl.dragonTreasure);
-app.get('/api/treasure/user', auth.usersOnly, treasureCtrl.getUserTreasure);
-app.post('/api/treasure/user', auth.usersOnly, treasureCtrl.addUserTreasure);
-app.get('/api/treasure/all', auth.usersOnly, auth.adminsOnly, treasureCtrl.getAllTreasure);
-
-//Auth endpoints
-app.post('/auth/register', authCtrl.register)
-app.post('/auth/login', authCtrl.login)
-app.get('/auth/logout', authCtrl.logout)
-
-//Secret stuff
-
+//db connection
 massive({
     connectionString: CONNECTION_STRING,
     ssl: { rejectUnauthorized: false},
@@ -40,3 +30,14 @@ massive({
     console.log('DB running')
     app.listen(SERVER_PORT, () => console.log(`Server listening on port ${SERVER_PORT}`))
 })
+
+//Auth endpoints
+app.post('/auth/register', authCtrl.register)
+app.post('/auth/login', authCtrl.login)
+app.get('/auth/logout', authCtrl.logout)
+
+//Dragon demonstration endpoint
+app.get('/api/treasure/dragon', treasureCtrl.dragonTreasure);
+app.get('/api/treasure/user', auth.usersOnly, treasureCtrl.getUserTreasure);
+app.post('/api/treasure/user', auth.usersOnly, treasureCtrl.addUserTreasure);
+app.get('/api/treasure/all', auth.usersOnly, auth.adminsOnly, treasureCtrl.getAllTreasure);
